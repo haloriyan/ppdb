@@ -40,11 +40,11 @@ class StudentController extends Controller
                 'last_used' => $timestamp,
             ]);
             
-            // $sendOtp = Http::post(env('WA_URL') . '/send-message', [
-            //     'client_id' => env('WA_CLIENT_ID'),
-            //     'number' => "6281259828618",
-            //     'message' => "Kode OTP Anda : *" . $code . "*"
-            // ]);
+            $sendOtp = Http::post(env('WA_URL') . '/send-message', [
+                'client_id' => env('WA_CLIENT_ID'),
+                'number' => "6281259828618",
+                'message' => "Kode OTP Anda : *" . $code . "*"
+            ]);
 
             return redirect()->route('student.otp');
         } else {
