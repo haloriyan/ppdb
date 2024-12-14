@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Booking;
 use App\Models\Counter;
 use App\Models\Coupon;
@@ -292,6 +293,65 @@ class AdminController extends Controller
         return view('admin.settings.counter', [
             'counters' => $counters,
             'message' => $message,
+        ]);
+    }
+
+    public function admin(Request $request) {
+        $filter = [];
+        $message = Session::get('message');
+        if  ($request->q != "") {
+            array_push($filter, ['name', 'LIKE', '%'.$request->q.'%']);
+        }
+        $admins = Admin::where($filter)->paginate(15);
+
+        return view('admin.admin', [
+            'admins' => $admins,
+            'message' => $message,
+            'request' => $request,
+        ]);
+    }
+    public function store(Request $request) {
+        $saveData = Admin::create([
+            'name' => $request->name,
+            'username' => $request->username,
+            'password' => bcrypt($request->password),
+            'role' => "administrator"
+        ]);
+
+        return redirect()->route('admin.admin')->with([
+            'message' => "Berhasil menambahkan admin baru"
+        ]);
+    }
+    public function update(Request $request) {
+        $me = me();
+        $toUpdate = [
+            'name' => $request->name,
+            'username' => $request->username,
+        ];
+
+        if ($request->password != "") {
+            $toUpdate['password'] = bcrypt($request->password);
+        }
+
+        $updateData = Admin::where('id', $request->id)->update($toUpdate);
+
+        if ($me->id == $request->id && $toUpdate['password']) {
+            $loggingOut = Auth::guard('admin')->logout();
+
+            return redirect()->route('admin.login')->with([
+                'message' => "Mohon login kembali menggunakan password baru"
+            ]);
+        }
+        
+        return redirect()->route('admin.admin')->with([
+            'message' => "Berhasil mengubah data admin"
+        ]);
+    }
+    public function delete(Request $request) {
+        $deleteData = Admin::where('id', $request->id)->delete();
+
+        return redirect()->route('admin.admin')->with([
+            'message' => "Berhasil menghapus admin"
         ]);
     }
 }

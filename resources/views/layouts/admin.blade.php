@@ -62,15 +62,20 @@
         <ion-icon name="analytics-outline"></ion-icon>
         <div class="text-sm flex">Gelombang</div>
     </a>
+    <a href="{{ route('admin.booking') }}" class="flex items-center gap-4 {{ $routes[1] == 'booking' ? 'bg-primary-transparent text-primary' : 'text-slate-500' }}">
+        <div class="h-12 w-1 {{ $routes[1] == 'booking' ? 'bg-primary' : 'bg-white' }}"></div>
+        <ion-icon name="people-outline"></ion-icon>
+        <div class="text-sm flex">Pendaftaran</div>
+    </a>
     <a href="{{ route('admin.coupon') }}" class="flex items-center gap-4 {{ $routes[1] == 'coupon' ? 'bg-primary-transparent text-primary' : 'text-slate-500' }}">
         <div class="h-12 w-1 {{ $routes[1] == 'coupon' ? 'bg-primary' : 'bg-white' }}"></div>
         <ion-icon name="pricetags-outline"></ion-icon>
         <div class="text-sm flex">Kupon Diskon</div>
     </a>
-    <a href="{{ route('admin.booking') }}" class="flex items-center gap-4 {{ $routes[1] == 'booking' ? 'bg-primary-transparent text-primary' : 'text-slate-500' }}">
-        <div class="h-12 w-1 {{ $routes[1] == 'booking' ? 'bg-primary' : 'bg-white' }}"></div>
+    <a href="{{ route('admin.admin') }}" class="flex items-center gap-4 {{ $routes[1] == 'admin' ? 'bg-primary-transparent text-primary' : 'text-slate-500' }}">
+        <div class="h-12 w-1 {{ $routes[1] == 'admin' ? 'bg-primary' : 'bg-white' }}"></div>
         <ion-icon name="people-outline"></ion-icon>
-        <div class="text-sm flex">Pendaftaran</div>
+        <div class="text-sm flex">Administrator</div>
     </a>
     <div class="group relative">
         <a href="#" class="flex items-center gap-4 text-slate-500 {{ $routes[1] == 'settings' ? 'bg-primary-transparent text-primary' : '' }}">

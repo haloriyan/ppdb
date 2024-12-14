@@ -111,5 +111,12 @@ Route::group(['prefix' => "admin"], function () {
             });
             Route::get('/', [AdminController::class, 'booking'])->name('admin.booking');
         });
+
+        Route::group(['prefix' => "admin"], function () {
+            Route::post('store', [AdminController::class, 'store'])->name('admin.admin.store');
+            Route::post('update', [AdminController::class, 'update'])->name('admin.admin.update');
+            Route::post('delete', [AdminController::class, 'delete'])->name('admin.admin.delete');
+            Route::get('/', [AdminController::class, 'admin'])->name('admin.admin');
+        });
     });
 });
