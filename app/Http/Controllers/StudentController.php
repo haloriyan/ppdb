@@ -42,7 +42,7 @@ class StudentController extends Controller
             
             $sendOtp = Http::post(env('WA_URL') . '/send-message', [
                 'client_id' => env('WA_CLIENT_ID'),
-                'number' => "6281259828618",
+                'number' => $student->phone,
                 'message' => "Kode OTP Anda : *" . $code . "*"
             ]);
 
