@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@yield('title') - {{ env('APP_NAME') }}</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {!! json_encode(config('tailwind')) !!}
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        div, aside, header { transition: 0.4s; }
+        body {
+            font-family: "Poppins", sans-serif;
+            font-style: normal;
+            font-weight: 400;
+        }
+    </style>
+    @yield('head')
+</head>
+<body>
+    
+<div class="absolute top-0 left-0 right-0 flex justify-start items-start z-20">
+    <div class="w-72 flex flex-col h-full border-r p-5 pt-0" id="sidebar">
+        <div class="flex flex-col items-center justify-center p-10">
+            <h1 class="font-bold text-2xl text-slate-700">{{ env('APP_NAME') }}</h1>
+        </div>
+        @php
+            $routeName = Route::currentRouteName();
+        @endphp
+        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-4 p-3 px-5 rounded-lg {{ $routeName == 'admin.dashboard' ? 'bg-primary-transparent text-primary font-medium' : 'text-slate-500'}}">
+            <ion-icon name="home-outline"></ion-icon>
+            <div class="text-sm">Dashboard</div>
+        </a>
+        <div class="group relative">
+            <a href="{{ route('admin.news') }}" class="flex items-center gap-4 p-3 px-5 rounded-lg text-slate-500">
+                <ion-icon name="create-outline"></ion-icon>
+                <div class="text-sm flex grow">Berita</div>
+                <ion-icon name="chevron-down-outline"></ion-icon>
+            </a>
+            <div class="hidden group-hover:flex flex-col">
+                <a href="{{ route('admin.news.create') }}" class="flex items-center gap-4 p-3 px-5 rounded-lg text-slate-500 text-sm">
+                    <ion-icon name="create-outline"></ion-icon>
+                    <div class="text-xs flex grow">Tulis Berita</div>
+                </a>
+                <a href="{{ route('admin.news') }}" class="flex items-center gap-4 p-3 px-5 rounded-lg text-slate-500 text-sm">
+                    <ion-icon name="create-outline"></ion-icon>
+                    <div class="text-xs flex grow">List Berita</div>
+                </a>
+            </div>
+        </div>
+        <div style="height: 2400px"></div>
+    </div>
+    <div class="flex flex-col grow">
+        <div class="flex items-center gap-4 px-10 bg-white h-20 border-b grow text-slate-700" id="header">
+            <div class="h-12 aspect-square flex items-center justify-center cursor-pointer" onclick="toggleSidebar()">
+                <ion-icon name="grid-outline"></ion-icon>
+            </div>
+            <div class="font-medium">@yield('title')</div>
+            <div class="flex grow"></div>
+            
+            <div class="relative group">
+                <span class="bg-primary text-white font-medium rounded-full flex items-center justify-center h-12 aspect-square cursor-pointer" onclick="toggleProfile()">
+                    {{ initial(me()->name) }}
+                </span>
+                <div class="absolute top-12 right-0 bg-white hidden hover:flex group-hover:flex flex-col shadow-lg border z-40">
+                    <a href="#" class="flex items-center gap-4 h-12 px-8 hover:bg-gray-100">
+                        <ion-icon name="person-outline" class="text-xl"></ion-icon>
+                        <div class="text-sm text-slate-500 min-w-24">Profil</div>
+                    </a>
+                    <a href="{{ route('admin.logout') }}" class="flex items-center gap-4 h-12 px-8 hover:bg-gray-100">
+                        <ion-icon name="log-out-outline" class="text-xl"></ion-icon>
+                        <div class="text-sm text-slate-500 min-w-24">Logout</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            @yield('content')
+        </div>
+    </div>
+</div>
+
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<script>
+    const select = dom => document.querySelector(dom);
+    const header = select("#header");
+    const sidebar = select("#sidebar");
+    const content = select("#content");
+    const ProfileMenu = select("#ProfileMenu");
+
+    const toggleSidebar = () => {
+        if (sidebar.classList.contains('w-72')) {
+            sidebar.classList.remove('w-72');
+            sidebar.classList.add('w-0');
+            content.classList.remove('left-72');
+            content.classList.add('left-0');
+            setTimeout(() => {
+                sidebar.classList.add('hidden');
+            }, 150);
+        } else {
+            sidebar.classList.remove('hidden');
+            content.classList.remove('left-0');
+            content.classList.add('left-72');
+            setTimeout(() => {
+                sidebar.classList.remove('w-0');
+                sidebar.classList.add('w-72');
+            }, 40)
+        }
+    }
+
+    const toggleProfile = () => {
+        ProfileMenu.classList.toggle('hidden');
+        ProfileMenu.classList.toggle('flex');
+    }
+</script>
+
+@yield('javascript')
+</body>
+</html>
