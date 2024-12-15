@@ -52,8 +52,8 @@
         <ion-icon name="home-outline"></ion-icon>
         <div class="text-sm flex">Dashboard</div>
     </a>
-    <a href="{{ route('admin.news') }}" class="flex items-center gap-4 {{ $routeName == 'admin.news' ? 'bg-primary-transparent text-primary' : 'text-slate-500' }}">
-        <div class="h-12 w-1 {{ $routeName == 'admin.news' ? 'bg-primary' : 'bg-white' }}"></div>
+    <a href="{{ route('admin.news') }}" class="flex items-center gap-4 {{ $routes[1] == 'news' ? 'bg-primary-transparent text-primary' : 'text-slate-500' }}">
+        <div class="h-12 w-1 {{ $routes[1] == 'news' ? 'bg-primary' : 'bg-white' }}"></div>
         <ion-icon name="create-outline"></ion-icon>
         <div class="text-sm flex">Berita</div>
     </a>

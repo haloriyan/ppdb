@@ -170,6 +170,49 @@ class AdminController extends Controller
             'request' => $request,
         ]);
     }
+    public function toggleMidtrans($key) {
+        $filePath = config_path('midtrans.php');
+        $config = include $filePath;
+
+        try {
+            foreach ($config as &$item) {
+                if (isset($item['key']) && $item['key'] === $key) {
+                    $item['enable'] = !$item['enable'];
+
+                    // Write the updated config back to the file
+                    $configExport = "<?php\n\nreturn [\n";
+                    foreach ($config as $configItem) {
+                        $configExport .= "    [\n";
+                        foreach ($configItem as $key => $value) {
+                            if (is_array($value)) {
+                                $value = var_export($value, true);
+                                $value = str_replace(["array (", ")"], ["[", "]"], $value);
+                                $value = str_replace("\n", "\n        ", $value);
+                            } else {
+                                $value = var_export($value, true);
+                            }
+                            $configExport .= "        '{$key}' => {$value},\n";
+                        }
+                        $configExport .= "    ],\n";
+                    }
+                    $configExport .= "];\n";
+
+                    file_put_contents($filePath, $configExport);
+                    sleep(3);
+
+                    return redirect()->route('admin.settings.midtrans', ['tab' => "channel"])->with([
+                        'message' => "Channel pembayaran diperbarui.",
+                    ]);
+                }
+            }
+
+            throw new \Exception("Key '{$key}' not found in the configuration.");
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 400);
+        }
+    }
     public function whatsapp() {
         $clientID = env('WA_CLIENT_ID');
         $qrSource = null;

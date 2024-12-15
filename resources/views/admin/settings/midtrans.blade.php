@@ -45,6 +45,21 @@
                     Channel Pembayaran
                 </a>
             </div>
+
+            <div class="flex flex-col gap-4">
+                @foreach (config('midtrans') as $midtrans)
+                    <div class="flex items-center gap-4">
+                        <img src="{{ asset($midtrans['image']) }}" alt="{{ $midtrans['key'] }}" class="h-16 aspect-square rounded object-cover">
+                        <div class="flex flex-col grow gap-1">
+                            <div class="text-slate-700 font-medium text-sm">{{ $midtrans['name'] }}</div>
+                            <div class="text-slate-500 font-medium text-xs">{{ $midtrans['description'] }}</div>
+                        </div>
+                        <a href="{{ route('admin.settings.midtrans.toggle', $midtrans['key']) }}" class="rounded-full w-14 p-1 flex {{ $midtrans['enable'] == true ? 'bg-green-500 justify-end' : 'bg-slate-200 justify-start' }}">
+                            <div class="h-6 aspect-square rounded-full bg-white"></div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
         </div>
     @else
         <div class="bg-white shadow-lg rounded-lg p-10 flex flex-col gap-4 mt-10">

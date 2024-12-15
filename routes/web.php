@@ -71,6 +71,7 @@ Route::group(['prefix' => "admin"], function () {
             Route::post('basic/save', [AdminController::class, 'saveBasicSettings'])->name('admin.settings.basic.save');
 
             Route::match(['GET', 'POST'], 'midtrans', [AdminController::class, 'midtrans'])->name('admin.settings.midtrans');
+            Route::get('midtrans/toggle/{key}', [AdminController::class, 'toggleMidtrans'])->name('admin.settings.midtrans.toggle');
             Route::get('whatsapp', [AdminController::class, 'whatsapp'])->name('admin.settings.whatsapp');
             Route::get('whatsapp/disconnect', [AdminController::class, 'disconnectWhatsapp'])->name('admin.settings.whatsapp.disconnect');
 
