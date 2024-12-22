@@ -13,8 +13,13 @@
                 <div class="text-xs text-slate-500">Nama Lengkap</div>
                 <div class="text-slate-700 font-medium">{{ $student->name }}</div>
 
-                <div class="text-xs text-slate-500 mt-4">No. WhatsApp</div>
-                <a href="https://wa.me/62{{ $student->phone }}" target="_blank" class="text-primary underline font-medium">+62{{ $student->phone }}</a>
+                @if (is_numeric($student->phone))
+                    <div class="text-xs text-slate-500 mt-4">No. WhatsApp</div>
+                    <a href="https://wa.me/62{{ $student->phone }}" target="_blank" class="text-primary underline font-medium">+62{{ $student->phone }}</a>
+                @else
+                    <div class="text-xs text-slate-500 mt-4">Email</div>
+                    <a href="mailto:{{ $student->phone }}" target="_blank" class="text-primary underline font-medium">{{ $student->phone }}</a>
+                @endif
 
                 @foreach ($tableCols as $col)
                     <div class="text-xs text-slate-500 mt-4">{{ $col['label'] }}</div>
@@ -46,9 +51,15 @@
                 </div>
                 <div class="text-xs text-slate-500 mt-4">Status Pembayaran</div>
                 <div class="flex">
-                    <div class="p-2 px-4 rounded-lg font-medium text-sm bg-{{ config('app')['status_colors'][$student->booking->payment_status] }}-100 text-{{ config('app')['status_colors'][$student->booking->payment_status] }}-700">
-                        {{ strtoupper($student->booking->payment_status) }}
-                    </div>
+                    @if ($student->booking->payment_status == null)
+                        <div class="p-2 px-4 rounded-lg font-medium text-sm bg-yellow-100 text-yellow-700">
+                            PENDING
+                        </div>
+                    @else
+                        <div class="p-2 px-4 rounded-lg font-medium text-sm bg-{{ config('app')['status_colors'][$student->booking->payment_status] }}-100 text-{{ config('app')['status_colors'][$student->booking->payment_status] }}-700">
+                            {{ strtoupper($student->booking->payment_status) }}
+                        </div>
+                    @endif
                 </div>
             @endif
         </div>

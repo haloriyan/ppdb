@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class ExportController extends Controller
 {
     public function student() {
-        $students = Student::orderBy('created_at', 'DESC')->get();
+        $students = Student::whereNotNull('fields')->orderBy('created_at', 'DESC')->get();
         $timestamp = Carbon::now()->format('Y-m-d_H:i:s');
         $filename = "Data-Siswa_Exported-at-" . $timestamp . ".xlsx";
 

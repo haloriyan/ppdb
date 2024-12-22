@@ -4,7 +4,7 @@
     
 @section('content')
 <h1 class="text-3xl text-slate-700 font-medium">Verifikasi</h1>
-<div class="text-slate-500 text-sm">Masukkan 4 Digit Kode yang Telah dikirim ke WhatsApp +62{{ $me->phone }}</div>
+<div class="text-slate-500 text-sm">Masukkan 4 Digit Kode yang Telah dikirim</div>
 <form method="POST" action="{{ route('student.otp') }}">
     @csrf
     <div class="flex flex-wrap items-center justify-center gap-8 mobile:gap-4">

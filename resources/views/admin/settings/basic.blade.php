@@ -2,6 +2,10 @@
 
 @section('title', "Pengaturan Dasar")
 
+@php
+    $toSave = ['APP_NAME', 'ABOUT', 'JUMBO_TITLE'];
+@endphp
+
 @section('content')
 <div class="p-10">
     @include('components.breadcrumb', ['items' => [
@@ -13,6 +17,10 @@
     <div class="bg-white rounded-lg shadow-lg p-8 mt-8">
         <form action="{{ route('admin.settings.basic.save') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @foreach ($toSave as $item)
+                <input type="hidden" name="to_save[]" value="{{ $item }}">
+            @endforeach
+
             <div class="flex items-center gap-4">
                 <div class="text-xs text-slate-500 flex grow">Logo</div>
                 <div class="relative flex flex-col items-center justify-center gap-2">

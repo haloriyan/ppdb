@@ -8,6 +8,7 @@ use App\Models\Otp;
 use App\Models\Student;
 use App\Models\StudentField;
 use App\Models\Wave;
+use App\Notifications\Otp as NotificationsOtp;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,11 +41,19 @@ class StudentController extends Controller
                 'last_used' => $timestamp,
             ]);
             
-            $sendOtp = Http::post(env('WA_URL') . '/send-message', [
-                'client_id' => env('WA_CLIENT_ID'),
-                'number' => "62".$student->phone,
-                'message' => "Kode OTP Anda : *" . $code . "*"
-            ]);
+            if (is_numeric($student->phone)) {
+                $sendOtp = Http::post(env('WA_URL') . '/send-message', [
+                    'client_id' => env('WA_CLIENT_ID'),
+                    'number' => "62".$student->phone,
+                    'message' => "Kode OTP Anda : *" . $code . "*"
+                ]);
+            } else {
+                Log::info('use email');
+                $student->notify(new NotificationsOtp([
+                    'code' => $code,
+                    'student' => $student
+                ]));
+            }
 
             return redirect()->route('student.otp');
         } else {
@@ -62,7 +71,9 @@ class StudentController extends Controller
                     return redirect()->route('student.dashboard');
                 }
             }
-            return view('student.auth');
+            return view('student.auth', [
+                'request' => $request
+            ]);
         }
     }
     public function logout() {

@@ -15,6 +15,11 @@ class Student extends Authenticatable
         'name', 'phone', 'fields'
     ];
 
+    public function routeNotificationFor($driver, $notification = null)
+    {
+        return $this->phone;
+    }
+
     public function booking() {
         return $this->hasOne(Booking::class, 'student_id');
     }

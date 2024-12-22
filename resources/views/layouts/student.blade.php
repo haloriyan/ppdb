@@ -31,7 +31,11 @@
             </div>
             <div class="flex flex-col grow">
                 <div class="text-sm text-slate-700 font-medium">{{ $me->name }}</div>
-                <div class="text-xs text-slate-500 mt-1">+62{{ $me->phone }}</div>
+                @if (is_numeric($me->phone))
+                    <div class="text-xs text-slate-500 mt-1">+62{{ $me->phone }}</div>
+                @else
+                    <div class="text-xs text-slate-500 mt-1">{{ $me->phone }}</div>
+                @endif
             </div>
             <a href="{{ route('student.logout') }}" class="text-primary text-xl">
                 <ion-icon name="log-out-outline"></ion-icon>

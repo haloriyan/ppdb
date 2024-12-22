@@ -75,6 +75,8 @@ Route::group(['prefix' => "admin"], function () {
             Route::get('whatsapp', [AdminController::class, 'whatsapp'])->name('admin.settings.whatsapp');
             Route::get('whatsapp/disconnect', [AdminController::class, 'disconnectWhatsapp'])->name('admin.settings.whatsapp.disconnect');
 
+            Route::get('email', [AdminController::class, 'email'])->name('admin.settings.email');
+
             Route::group(['prefix' => "isian-siswa"], function () {
                 Route::post('store', [FieldController::class, 'store'])->name('admin.settings.field.store');
                 Route::get('{id}/required', [FieldController::class, 'required'])->name('admin.settings.field.required');

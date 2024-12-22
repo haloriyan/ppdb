@@ -123,7 +123,8 @@ class AdminController extends Controller
         ]);
     }
     public function saveBasicSettings(Request $request) {
-        $toSave = ['APP_NAME', 'ABOUT', 'JUMBO_TITLE'];
+        // $toSave = ['APP_NAME', 'ABOUT', 'JUMBO_TITLE'];
+        $toSave = $request->to_save;
 
         foreach ($toSave as $item) {
             // echo $request->{$item};
@@ -258,6 +259,10 @@ class AdminController extends Controller
         changeEnv('WA_CLIENT_NAME', $request->name);
         changeEnv('WA_CLIENT_NUMBER', $request->number);
     }
+    public function email() {
+        return view('admin.settings.email');
+    }
+
     public function studentField() {
         $message = Session::get('message');
         $fields = StudentField::orderBy('priority', 'DESC')
