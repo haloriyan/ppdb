@@ -72,6 +72,11 @@
         <ion-icon name="pricetags-outline"></ion-icon>
         <div class="text-sm flex">Kupon Diskon</div>
     </a>
+    <a href="{{ route('admin.faq') }}" class="flex items-center gap-4 {{ $routes[1] == 'faq' ? 'bg-primary-transparent text-primary' : 'text-slate-500' }}">
+        <div class="h-12 w-1 {{ $routes[1] == 'faq' ? 'bg-primary' : 'bg-white' }}"></div>
+        <ion-icon name="chatbubbles-outline"></ion-icon>
+        <div class="text-sm flex">Pertanyaan Umum</div>
+    </a>
     <a href="{{ route('admin.admin') }}" class="flex items-center gap-4 {{ $routes[1] == 'admin' ? 'bg-primary-transparent text-primary' : 'text-slate-500' }}">
         <div class="h-12 w-1 {{ $routes[1] == 'admin' ? 'bg-primary' : 'bg-white' }}"></div>
         <ion-icon name="people-outline"></ion-icon>
@@ -88,6 +93,10 @@
             <a href="{{ route('admin.settings.basic') }}" class="flex items-center gap-4 text-slate-500">
                 <div class="h-10 w-1 bg-white"></div>
                 <div class="text-sm flex grow {{ @$routes[2] == 'basic' ? 'text-primary' : '' }}">Dasar</div>
+            </a>
+            <a href="{{ route('admin.settings.backup') }}" class="flex items-center gap-4 text-slate-500">
+                <div class="h-10 w-1 bg-white"></div>
+                <div class="text-sm flex grow {{ @$routes[2] == 'backup' ? 'text-primary' : '' }}">Cadangkan / Pulihkan</div>
             </a>
             <a href="{{ route('admin.settings.counter') }}" class="flex items-center gap-4 text-slate-500">
                 <div class="h-10 w-1 bg-white"></div>

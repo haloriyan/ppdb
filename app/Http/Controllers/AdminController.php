@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Booking;
 use App\Models\Counter;
 use App\Models\Coupon;
+use App\Models\Faq;
 use App\Models\News;
 use App\Models\Student;
 use App\Models\StudentField;
@@ -401,5 +402,17 @@ class AdminController extends Controller
         return redirect()->route('admin.admin')->with([
             'message' => "Berhasil menghapus admin"
         ]);
+    }
+    public function faq() {
+        $message = Session::get('message');
+        $faqs = Faq::orderBy('priority', 'DESC')->orderBy('updated_at', 'DESC')->get();
+
+        return view('admin.faq', [
+            'message' => $message,
+            'faqs' => $faqs,
+        ]);
+    }
+    public function backup() {
+        return view('admin.settings.backup');
     }
 }

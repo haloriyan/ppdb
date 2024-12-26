@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CounterController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FieldController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
@@ -38,6 +40,7 @@ Route::group(['middleware' => "student"], function () {
     
 
     Route::get('dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+
     Route::post('pendaftaran', [StudentController::class, 'pendaftaran'])->name('student.pendaftaran');
     Route::get('pembayaran', [StudentController::class, 'pembayaran'])->name('student.pembayaran');
     Route::get('pay/{paymentKey}', [StudentController::class, 'pay'])->name('student.pay');
@@ -52,6 +55,8 @@ Route::group(['prefix' => "admin"], function () {
 
     Route::middleware(['admin'])->group(function () {
         Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('backup', [BackupController::class, 'backup'])->name('admin.backup');
+        Route::post('restore', [BackupController::class, 'restore'])->name('admin.restore');
 
         Route::group(['prefix' => "export"], function () {
             Route::get('student', [ExportController::class, 'student'])->name('admin.export.student');
@@ -69,6 +74,8 @@ Route::group(['prefix' => "admin"], function () {
         Route::group(['prefix' => "settings"], function () {
             Route::get('basic', [AdminController::class, 'basicSettings'])->name('admin.settings.basic');
             Route::post('basic/save', [AdminController::class, 'saveBasicSettings'])->name('admin.settings.basic.save');
+
+            Route::get('backup', [AdminController::class, 'backup'])->name('admin.settings.backup');
 
             Route::match(['GET', 'POST'], 'midtrans', [AdminController::class, 'midtrans'])->name('admin.settings.midtrans');
             Route::get('midtrans/toggle/{key}', [AdminController::class, 'toggleMidtrans'])->name('admin.settings.midtrans.toggle');
@@ -120,6 +127,13 @@ Route::group(['prefix' => "admin"], function () {
             Route::post('update', [AdminController::class, 'update'])->name('admin.admin.update');
             Route::post('delete', [AdminController::class, 'delete'])->name('admin.admin.delete');
             Route::get('/', [AdminController::class, 'admin'])->name('admin.admin');
+        });
+        Route::group(['prefix' => "faq"], function () {
+            Route::post('store', [FaqController::class, 'store'])->name('admin.faq.store');
+            Route::post('update', [FaqController::class, 'update'])->name('admin.faq.update');
+            Route::post('delete', [FaqController::class, 'delete'])->name('admin.faq.delete');
+            Route::get('{id}/priority/{action}', [FaqController::class, 'priority'])->name('admin.faq.priority');
+            Route::get('/', [AdminController::class, 'faq'])->name('admin.faq');
         });
     });
 });

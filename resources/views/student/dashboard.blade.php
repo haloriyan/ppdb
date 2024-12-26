@@ -14,14 +14,16 @@
             {{-- <div class="text-slate-700 font-medium mt-2">{{ $me }}</div> --}}
             <div class="flex flex-col gap-4 mt-8">
                 @foreach (json_decode(base64_decode($me->fields), false) as $field)
-                    <div class="flex items-center gap-4">
-                        <div class="text-xs text-slate-500 flex grow">{{ $field->label }}</div>
-                        @if ($field->type != "FILE")
-                            <div class="text-slate-700 font-medium mobile:text-sm">{{ $field->value }}</div>
-                        @else
-                            <a href="{{ asset('storage/pendaftaran_files/'.$me->id.'/' . $field->value) }}" class="text-primary font-medium mobile:text-sm" target="_blank">LIHAT</a>
-                        @endif
-                    </div>
+                    @if ($field->value != null)
+                        <div class="flex items-center gap-4">
+                            <div class="text-xs text-slate-500 flex grow">{{ $field->label }}</div>
+                            @if ($field->type != "FILE")
+                                <div class="text-slate-700 font-medium mobile:text-sm">{{ $field->value }}</div>
+                            @else
+                                <a href="{{ asset('storage/pendaftaran_files/'.$me->id.'/' . $field->value) }}" class="text-primary font-medium mobile:text-sm" target="_blank">LIHAT</a>
+                            @endif
+                        </div>
+                    @endif
                 @endforeach
             </div>
         </div>
