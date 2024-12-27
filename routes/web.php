@@ -118,6 +118,7 @@ Route::group(['prefix' => "admin"], function () {
         Route::group(['prefix' => "pendaftaran"], function () {
             Route::group(['prefix' => "{id}"], function () {
                 Route::get('detail', [BookingController::class, 'detail'])->name('admin.booking.detail');
+                Route::get('accept', [BookingController::class, 'accept'])->name('admin.booking.accept');
             });
             Route::get('/', [AdminController::class, 'booking'])->name('admin.booking');
         });

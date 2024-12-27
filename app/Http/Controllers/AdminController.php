@@ -11,6 +11,7 @@ use App\Models\News;
 use App\Models\Student;
 use App\Models\StudentField;
 use App\Models\Wave;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -313,7 +314,25 @@ class AdminController extends Controller
             array_push($filter, ['name', 'LIKE', '%'.$request->q.'%']);
         }
 
-        $students = Student::where($filter)->whereNotNull('fields')->orderBy('created_at')->paginate(25);
+        $waves = Wave::whereBetween('start_date', [
+            Carbon::now()->startOfYear()->format('Y-m-d H:i:s'),
+            Carbon::now()->endOfYear()->format('Y-m-d H:i:s'),
+        ])
+        ->orWhereBetween('end_date', [
+            Carbon::now()->startOfYear()->format('Y-m-d H:i:s'),
+            Carbon::now()->addYear()->endOfYear()->format('Y-m-d H:i:s'),
+        ])->get();
+
+        $stu = Student::where($filter)->whereNotNull('fields');
+        
+        if ($request->wave_id != "") {
+            // array_push($filter, ['wave_id', $request->wave_id]);
+            $stu = $stu->whereHas('booking', function ($query) use ($request) {
+                $query->where('wave_id', $request->wave_id);
+            });
+        }
+
+        $students = $stu->with(['booking'])->orderBy('created_at')->paginate(25);
         $tableCols = [];
         $theTableCols = [];
         foreach ($students as $student) {
@@ -333,6 +352,7 @@ class AdminController extends Controller
             'students' => $students,
             'tableCols' => $tableCols,
             'request' => $request,
+            'waves' => $waves,
         ]);
     }
     public function counter() {

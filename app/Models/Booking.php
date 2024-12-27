@@ -8,7 +8,8 @@ class Booking extends Model
 {
     protected $fillable = [
         'student_id', 'wave_id', 'coupon_id', 'total_pay',
-        'payment_status', 'payment_method', 'payment_channel', 'payment_payload'
+        'payment_status', 'payment_method', 'payment_channel', 'payment_payload',
+        'is_accepted'
     ];
 
     public function wave() {

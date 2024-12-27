@@ -200,6 +200,7 @@ class StudentController extends Controller
                 'wave_id' => $wave->id,
                 'payment_status' => $paymentStatus,
                 'total_pay' => $wave->price,
+                'is_accepted' => false,
             ]);
 
             return redirect()->route('student.dashboard');
